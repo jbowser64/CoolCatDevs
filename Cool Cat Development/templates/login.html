@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<h1> REGISTER </h1>
+	<form action="/login" method="POST">
+		<input placeholder="Email" autocomplete="off" type="email" name="email">
+		<input placeholder="Phone Number" autocomplete="off" type="text" name="phone_number">
+		<input placeholder="Password" autocomplete="off" type="text" name="password">
+		<input type="submit" name="Register">
+	</form>
+{% endblock %}
