@@ -12,3 +12,5 @@ pip install flask
 pip install Flask-Session
 
 pip install db-sqlite3
+
+Test
