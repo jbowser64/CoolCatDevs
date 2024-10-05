@@ -4,8 +4,8 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 
-DATABASE_PATH = ".\\Resources\\database.db"
-
+DATABASE_PATH = "database.db"
+# use following path if database doesn't connect; DATABASE_PATH = ".\\Resources\\database.db"
 #------------------------[ Database ]------------------------#
 def fetch_one(query:str, parameters:tuple|None=None) -> any:
 	try:
