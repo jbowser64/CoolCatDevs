@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+	<table id="data-table" border="1">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Items</th>
+				<th>Total</th>
+				<th>Created</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+
+	<script>
+		function unix_to_datetime(unix_timestamp) {
+			if (typeof unix_timestamp !== 'number') { throw new Error('Invalid input: Unix timestamp must be a number.'); }
+		
+			// Convert to milliseconds and create a Date object
+			const datetime = new Date(unix_timestamp * 1000);
+		
+			// Handle potential JavaScript Date object limitations
+			if (isNaN(datetime.getTime())) {
+				throw new Error('Invalid Unix timestamp: Could not create a valid Date object.');
+			}
+		
+			return datetime;
+		}
+
+		function date_string(unix_timestamp) {
+			var datetime = unix_to_datetime(unix_timestamp)
+			
+			var year = datetime.getFullYear();
+			var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+			var month = months[datetime.getMonth()];
+			var day = datetime.getDate();
+			
+			return month + " " + day + ", " + year;
+		}
+
+		function add_commas_to_number(number) {
+		    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+
+		fetch("/orders/all")
+			.then(response => response.json())
+			.then(data => {
+				
+				const table_body = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+				data.forEach(order => {
+					let row = table_body.insertRow();
+					let cell_1 = row.insertCell(0);
+					let cell_2 = row.insertCell(1);
+					let cell_3 = row.insertCell(2);
+					let cell_4 = row.insertCell(3);
+					let cell_5 = row.insertCell(4);
+					cell_1.innerHTML = order.id;
+					cell_2.innerHTML = order.total_items;
+					cell_3.innerHTML = "$" + add_commas_to_number(order.total_price);
+					cell_4.innerHTML = date_string(order.created);
+					cell_5.innerHTML = order.status;
+				});
+			})
+			.catch(error => console.error('Error fetching data:', error));
+	</script>
+{% endblock %}

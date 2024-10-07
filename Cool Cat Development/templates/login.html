@@ -1,11 +1,30 @@
 {% extends "layout.html" %}
 
+{% block title %}Login{% endblock %}
+
 {% block content %}
-	<h1> REGISTER </h1>
+	<h1>Log In</h1>
 	<form action="/login" method="POST">
-		<input placeholder="Email" autocomplete="off" type="email" name="email">
-		<input placeholder="Phone Number" autocomplete="off" type="text" name="phone_number">
-		<input placeholder="Password" autocomplete="off" type="text" name="password">
-		<input type="submit" name="Register">
+		<input 
+			placeholder = "Email" 
+			autocomplete = "off" 
+			type = "email" 
+			name = "email">
+		<input 
+			id = "phone_number" 
+			placeholder = "Phone Number" 
+			autocomplete = "off" 
+			type = "tel" 
+			name = "phone_number"
+			pattern = "[0-9]{3}-[0-9]{3}-[0-9]{4}" 
+			title = "123-123-1234">
+		<input 
+			placeholder = "Password" 
+			autocomplete = "off" 
+			type = "password" 
+			name = "password">
+		<input 
+			type = "submit" 
+			name = "Register">
 	</form>
 {% endblock %}
