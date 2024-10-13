@@ -1,9 +1,0 @@
-{% extends "layout.html" %}
-
-{% block content %}
-	{% if session.customer_id %}
-		Welcome Customer {{ session.customer_id }}! <a href="/logout">logout</a>.
-	{% else %}
-		You are not Registered. <a href="/login">login</a>.
-	{% endif %}
-{% endblock %}
