@@ -1,0 +1,6 @@
+pip install flask
+pip install Flask-Session
+pip install phonenumbers
+pip install db-sqlite3
+
+pip install faker		# Generates Sample Data
