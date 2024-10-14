@@ -19,8 +19,34 @@ def favicon():
 @app.route("/")
 @app.route("/home")
 def home():
-	if not session.get("customer_id"): return redirect("/login")
-	return render_template("home.html")
+    if not session.get("customer_id"):
+        return redirect("/login")
+    return render_template("home.html")
+
+@app.route("/catalog")
+def catalog():
+    if not session.get("customer_id"):
+        return redirect("/login")
+    return render_template("catalog.html")
+
+@app.route("/about")
+def about():
+    if not session.get("customer_id"):
+        return redirect("/login")
+    return render_template("aboutus.html")
+
+@app.route("/contact")
+def contact():
+    if not session.get("customer_id"):
+        return redirect("/login")
+    return render_template("contactus.html")
+
+@app.route("/cart")
+def cart():
+    if not session.get("customer_id"):
+        return redirect("/login")
+    return render_template("cart.html")  
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel="icon" href="/favicon.ico">
+        <title>Cool Cat Devs | {% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="{{ url_for('home') }}">Cool Cat Devs</a> <!-- The logo will link to the homepage -->
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('about') }}">About Us</a></li> 
+                <li><a href="{{ url_for('catalog') }}">Shop</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact Us</a></li> 
+            </ul>
+            <div class="cart-icon">
+                <a href="{{ url_for('cart') }}">
+                    <img src="{{ url_for('static', filename='images/cart-icon.png') }}" alt="Cart"> <!-- The cart icon will link to the cart page -->
+                </a>
+            </div>
+        </nav>
+
+
+        {% block content %}{% endblock %}
+    </body>
+</html>
