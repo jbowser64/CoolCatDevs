@@ -7,9 +7,16 @@
     <p>Explore our unique selection of products below!</p>
     <div class="product-grid">
         <div class="product-card">
-            <img src="path_to_image_1" alt="Product 1">
+            <img src="{{ url_for('static', filename='product_images/poker_tee_black.png') }}" alt="Product 1">
             <h3>Product Name 1</h3>
             <p>$25.99</p>
+            <p>Select Color:</p>
+            <select name="Select Color" style="width: auto; border: solid; border-color: #27ae60" >
+                <option>Black</option>
+                <option>White</option>
+                <option>Blue</option>
+                <option>Red</option>
+            </select>
             <button class="add-to-cart">Add to Cart</button>
         </div>
         <div class="product-card">
