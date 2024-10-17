@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\CoolCatDevs",
+    "\\CoolCatDevs\\Cool Cat Development",
+    "\\CoolCatDevs\\Cool Cat Development\\Util"
   ],
+  "SelectedNode": "\\CoolCatDevs\\Cool Cat Development\\Util\\Database.py",
   "PreviewInSolutionExplorer": false
 }
