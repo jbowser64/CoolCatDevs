@@ -1,34 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\",
+  "WorkspaceRootPath": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CoolCatDevs\\Cool Cat Development\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\catalog.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\catalog.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CoolCatDevs\\Cool Cat Development\\templates\\catalog.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\cart.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\cart.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CoolCatDevs\\Cool Cat Development\\templates\\cart.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\aboutus.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\aboutus.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CoolCatDevs\\Cool Cat Development\\templates\\aboutus.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\static\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CoolCatDevs\\Cool Cat Development\\static\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\home.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CoolCatDevs\\Cool Cat Development\\templates\\home.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\layout.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CoolCatDevs\\Cool Cat Development\\templates\\layout.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:CoolCatDevs\\Cool Cat Development\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,81 +30,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "layout.html",
-              "DocumentMoniker": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\layout.html",
-              "RelativeDocumentMoniker": "CoolCatDevs\\Cool Cat Development\\templates\\layout.html",
-              "ToolTip": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\layout.html",
-              "RelativeToolTip": "CoolCatDevs\\Cool Cat Development\\templates\\layout.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-10-17T16:11:31.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "catalog.html",
-              "DocumentMoniker": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\catalog.html",
-              "RelativeDocumentMoniker": "CoolCatDevs\\Cool Cat Development\\templates\\catalog.html",
-              "ToolTip": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\catalog.html",
-              "RelativeToolTip": "CoolCatDevs\\Cool Cat Development\\templates\\catalog.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-10-14T19:51:25.163Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "home.html",
-              "DocumentMoniker": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\home.html",
-              "RelativeDocumentMoniker": "CoolCatDevs\\Cool Cat Development\\templates\\home.html",
-              "ToolTip": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\home.html",
-              "RelativeToolTip": "CoolCatDevs\\Cool Cat Development\\templates\\home.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAABTAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-10-14T19:45:17.515Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "app.py",
-              "DocumentMoniker": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\app.py",
-              "RelativeDocumentMoniker": "CoolCatDevs\\Cool Cat Development\\app.py",
-              "ToolTip": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\app.py",
-              "RelativeToolTip": "CoolCatDevs\\Cool Cat Development\\app.py",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAABIAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-10-14T19:40:03.617Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "cart.html",
-              "DocumentMoniker": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\cart.html",
+              "DocumentMoniker": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\cart.html",
               "RelativeDocumentMoniker": "CoolCatDevs\\Cool Cat Development\\templates\\cart.html",
-              "ToolTip": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\cart.html",
+              "ToolTip": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\cart.html",
               "RelativeToolTip": "CoolCatDevs\\Cool Cat Development\\templates\\cart.html",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAACMAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
@@ -123,9 +53,9 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "aboutus.html",
-              "DocumentMoniker": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\aboutus.html",
+              "DocumentMoniker": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\aboutus.html",
               "RelativeDocumentMoniker": "CoolCatDevs\\Cool Cat Development\\templates\\aboutus.html",
-              "ToolTip": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\aboutus.html",
+              "ToolTip": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\aboutus.html",
               "RelativeToolTip": "CoolCatDevs\\Cool Cat Development\\templates\\aboutus.html",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
@@ -134,15 +64,41 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\README.md",
+              "RelativeDocumentMoniker": "README.md",
+              "ToolTip": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\README.md",
+              "RelativeToolTip": "README.md",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2024-10-19T18:35:36.52Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "catalog.html",
+              "DocumentMoniker": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\catalog.html",
+              "RelativeDocumentMoniker": "CoolCatDevs\\Cool Cat Development\\templates\\catalog.html",
+              "ToolTip": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\templates\\catalog.html",
+              "RelativeToolTip": "CoolCatDevs\\Cool Cat Development\\templates\\catalog.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-10-14T19:51:25.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "style.css",
-              "DocumentMoniker": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\static\\style.css",
-              "RelativeDocumentMoniker": "CoolCatDevs\\Cool Cat Development\\static\\style.css",
-              "ToolTip": "C:\\Users\\usjbows\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\static\\style.css",
-              "RelativeToolTip": "CoolCatDevs\\Cool Cat Development\\static\\style.css",
-              "ViewState": "AQIAAPAAAAAAAAAAAAAAACIBAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-10-17T13:56:34.646Z",
+              "Title": "app.py",
+              "DocumentMoniker": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\app.py",
+              "RelativeDocumentMoniker": "CoolCatDevs\\Cool Cat Development\\app.py",
+              "ToolTip": "C:\\Users\\josep\\source\\repos\\jbowser64\\CoolCatDevs\\CoolCatDevs\\Cool Cat Development\\app.py",
+              "RelativeToolTip": "CoolCatDevs\\Cool Cat Development\\app.py",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAABIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-10-14T19:40:03.617Z",
               "EditorCaption": ""
             }
           ]
