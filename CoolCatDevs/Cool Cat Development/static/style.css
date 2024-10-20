@@ -231,12 +231,12 @@ body {
 			font-size: 24px;
 		}
 
-/* Navigation Links */
+/* NAV LINKS STYLING */
 .nav-links {
 	list-style: none;
 	display: flex;
 	justify-content: space-between;
-	flex: 2; /* Ensure it takes enough space */
+	flex: 2; 
 }
 
 	.nav-links li {
@@ -254,8 +254,10 @@ body {
 			background-color: #555;
 			border-radius: 5px;
 		}
+	/* NAV LINKS END */
 
-/* Cart Icon and Border/background */
+
+	/* CART STYLING */
 .cart-border{
 	width: 40px; height: 25px;
 	background-color: white;
@@ -276,17 +278,132 @@ body {
 		height: 24px;
 	}
 
-/* Ensure overall body alignment if necessary */
 body {
 	margin: 0;
 	padding: 0;
 	font-family: Arial, sans-serif;
 }
 
-/* Ensure all footer elements are uniform*/
 footer {
 	border-style:outset;
 	border:ridge;
 	width:auto;
 
 }
+	/* CART STYLING END */
+
+	/* CONTACT US PAGE STYLING */
+
+.contact-container {
+	width: 400px;
+	margin: 100px auto;
+	padding: 2rem;
+	background-color: #fff; /* White background for contrast */
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	color: var(--primary-color); /* Uses the theme's primary color */
+}
+
+	.contact-container h1 {
+		margin-bottom: 1.5rem;
+		font-size: 28px;
+		color: var(--primary-color); /* Mediumpurple for text */
+	}
+
+	.contact-container form {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.contact-container label {
+		color: #333;
+		font-weight: bold;
+		margin-bottom: 0.5rem;
+	}
+
+	.contact-container input,
+	.contact-container textarea {
+		padding: 0.75rem;
+		margin-bottom: 1rem;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 16px;
+	}
+
+		.contact-container input:focus,
+		.contact-container textarea:focus {
+			border-color: var(--primary-color); 
+		}
+
+	.contact-container button {
+		padding: 0.75rem;
+		background-color: var(--primary-color); 
+		color: white;
+		border: none;
+		border-radius: 4px;
+		font-size: 16px;
+		cursor: pointer;
+	}
+
+		.contact-container button:hover {
+			background-color: #7038a1; 
+		}
+
+	/* CONTACT US STYLING END */
+
+
+
+
+/* UPDATED LOGIN PAGE STYLING */
+.login-container {
+	width: 400px;
+	margin: 100px auto;
+	padding: 2rem;
+	background-color: #333;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	text-align: center;
+}
+
+	.login-container h1 {
+		margin-bottom: 1.5rem;
+		font-size: 24px;
+		color: var(--primary-color);
+	}
+
+	.login-container form {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.login-container input {
+		padding: 0.75rem;
+		margin-bottom: 1rem;
+		border: 1px solid #ddd;
+		border-radius: 6px;
+		font-size: 16px;
+		color: #333;
+		background-color: #fff;
+	}
+
+		.login-container input::placeholder {
+			color: #888;
+		}
+
+	.login-container button {
+		padding: 0.75rem;
+		background-color: var(--primary-color);
+		color: white;
+		border: none;
+		border-radius: 6px;
+		font-size: 16px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+		.login-container button:hover {
+			background-color: #9370db; 
+		}
+
+		/* LOGIN PAGE STYLING END */
