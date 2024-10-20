@@ -1,15 +1,15 @@
-function getpokercolor() {
-    switch (document.getElementById(poker_tee)) {
-        case Black:
-            poker_tee( src = "{{ url_for('static', filename='product_images/poker_tee_black.png') }} ");
+function getpokercolor(Color) {
+    switch (Color) {
+        case "Black":
+            poker_tee(src = "{{ url_for('static', filename='product_images/poker_tee_black.png') }} ");
             break;
-        case White:
+        case "White":
             poker_tee(src = "{{ url_for('static', filename='product_images/poker_tee_white.png') }} ");
             break;
-        case Blue:
+        case "Blue":
             poker_tee.src = "{{ url_for('static', filename='product_images/poker_tee_blue.png') }} ";
             break;
-        case Red:
+        case "Red":
             poker_tee.src = "{{ url_for('static', filename='product_images/poker_tee_red.png') }} ";
             break;
 
@@ -29,7 +29,6 @@ function getcnscolor(Black, White, Blue, Red) {
         case Red:
             cns_tee.src = "{{ url_for('static', filename='product_images/poker_tee_red.png') }} ";
             break;
-
     }
 }
 function getmoneycolor(Black, White, Blue, Red) {
@@ -48,5 +47,8 @@ function getmoneycolor(Black, White, Blue, Red) {
             break;
 
     }
+}
+function test() {
+    var color = document.getElementsByName(Select)
 }
  
