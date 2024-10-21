@@ -13,11 +13,11 @@
         <h3>Cool Cat Poker</h3>
         <p>$25.99</p>
         <p>Select Color:</p>
-        <select name="Select Color" style="width: auto; border: solid; border-color: #27ae60">
-            <option onclick="getpokercolor('Black')">Black</option>
-            <option onclick="getpokercolor('White')">White</option>
-            <option onclick="getpokercolor('Blue')">Blue</option>
-            <option onclick="getpokercolor('Red')">Red</option>
+        <select name="Select Color" id="poker-select" style="width: auto; border: solid; border-color: #27ae60" onchange="product_color('poker-select', 'poker_tee')">
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Blue">Blue</option>
+            <option value="Red">Red</option>
         </select>
         <button class="add-to-cart">Add to Cart</button>
     </div>
@@ -49,6 +49,66 @@
     </div>
     <!-- Add more products as needed -->
 </div>
+
+
+<script>
+function product_color(dropdown_id, image_id) {
+    const Color = document.getElementById(dropdown_id).value;
+    const Image = document.getElementById(image_id)
+
+    window.alert(Color);
+    switch (Color) {
+        case "Black":
+            Image.src = "{{ url_for('static', filename='product_images/poker_tee_black.png') }}";
+            break;
+        case "White":
+            Image.src = "{{ url_for('static', filename='product_images/poker_tee_white.png') }}";
+            break;
+        case "Blue":
+            Image.src = "{{ url_for('static', filename='product_images/poker_tee_blue.png') }}";
+            break;
+        case "Red":
+            Image.src = "{{ url_for('static', filename='product_images/poker_tee_red.png') }}";
+            break;
+    }
+}
+function getcnscolor(Black, White, Blue, Red) {
+    switch (document.getElementById(cns_tee)) {
+        case Black:
+            cns_tee(src = "{{ url_for('static', filename='product_images/poker_tee_black.png') }} ");
+            break;
+        case White:
+            cns_tee(src = "{{ url_for('static', filename='product_images/poker_tee_white.png') }} ");
+            break;
+        case Blue:
+            cns_tee.src = "{{ url_for('static', filename='product_images/poker_tee_blue.png') }} ";
+            break;
+        case Red:
+            cns_tee.src = "{{ url_for('static', filename='product_images/poker_tee_red.png') }} ";
+            break;
+    }
+}
+function getmoneycolor(Black, White, Blue, Red) {
+    switch (document.getElementById(money_tee)) {
+        case Black:
+           money_tee(src = "{{ url_for('static', filename='product_images/poker_tee_black.png') }} ");
+            break;
+        case White:
+            money_tee(src = "{{ url_for('static', filename='product_images/poker_tee_white.png') }} ");
+            break;
+        case Blue:
+            money_tee.src = "{{ url_for('static', filename='product_images/poker_tee_blue.png') }} ";
+            break;
+        case Red:
+            money_tee.src = "{{ url_for('static', filename='product_images/poker_tee_red.png') }} ";
+            break;
+
+    }
+}
+function test() {
+    var color = document.getElementsByName(Select)
+}
+</script>
 {% endblock %}
 
 
