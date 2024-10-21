@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
-        <meta name="viewport" content="initial-scale=1, width=device-width">
-        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <title>Cool Cat Devs | {% block title %}{% endblock %}</title>
-    </head>
+	<head>
+		<link rel="stylesheet" type="text/css" href="static/style.css">
+		<meta name="viewport" content="initial-scale=1, width=device-width">
+		<link rel="icon" href="static/favicon.ico">
+		<title>Cool Cat Devs | {% block title %}{% endblock %}</title>
+	</head>
 
-    <body>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="{{ url_for('home') }}">Cool Cat Devs</a> <!-- The logo will link to the homepage -->
-            </div>
-            <ul class="nav-links">
-                <li><a href="{{ url_for('about') }}">About Us</a></li> 
-                <li><a href="{{ url_for('catalog') }}">Shop</a></li>
-                <li><a href="{{ url_for('contact') }}">Contact Us</a></li> 
-                <li><a href="{{ url_for('cart') }}">Your Cart</a></li>
-            </ul>
-            <div class="cart-border">
-                <div class="cart-icon">
-                    <a href="{{ url_for('cart') }}">
-                        <img src="{{ url_for('static', filename='icons/cart.png') }}" alt="Cart"> <!-- The cart icon will link to the cart page -->
-                    </a>
-                </div>
-            </div>
-        </nav>
+	<body>
+		<nav class="navbar">
+			<div class="logo">
+				<a href="{{ url_for('home') }}">Cool Cat Devs</a> <!-- The logo will link to the homepage -->
+			</div>
+			<ul class="nav-links">
+				<li><a href="{{ url_for('about') }}">About Us</a></li> 
+				<li><a href="{{ url_for('catalog') }}">Shop</a></li>
+				<li><a href="{{ url_for('contact') }}">Contact Us</a></li> 
+				<li><a href="{{ url_for('cart') }}">Your Cart</a></li>
+			</ul>
+			<div class="cart-border">
+				<div class="cart-icon">
+					<a href="{{ url_for('cart') }}">
+						<img src="static/icons/cart.png" alt="Cart"> <!-- The cart icon will link to the cart page -->
+					</a>
+				</div>
+			</div>
+		</nav>
 
 
-        {% block content %}{% endblock %}
-    </body>
+		{% block content %}{% endblock %}
+	</body>
 
 </html>
