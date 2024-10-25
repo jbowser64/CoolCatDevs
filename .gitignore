@@ -1,3 +1,5 @@
 /.vs
 
 /flask_session
+
+/Util/__pycache__
