@@ -77,28 +77,67 @@ def login_customer(password:str, email:str|None=None, phone_number:str|None=None
 		"first_name": data[1]
 	} if check_password_hash(data[2], password) else None
 
-def get_product(product_id:int) -> dict:
-	assert product_id, "No Product Id provided."
+def get_all_products() -> list:
+	data = fetch_all('''
+		SELECT
+			products.product_id,
+			product_variants.product_variant_id,
+			products.product_name,
+			product_variants.product_variant_name,
+			products.description,
+			product_type_ids.product_type,
+			product_variants.unit_price,
+			product_variants.image
+		FROM product_variants
+			LEFT JOIN products ON product_variants.product_id = products.product_id
+			LEFT JOIN product_type_ids ON products.product_type_id = product_type_ids.product_type_id
+	''')
+
+	products = {}
+	for product_variant in data:
+		if not product_variant[0] in products:
+			products[ product_variant[0] ] = {
+				"name": product_variant[2],
+				"description": product_variant[4],
+				"type": product_variant[5],
+				"variants": []
+			}
+
+		products[ product_variant[0] ]["variants"].append({
+			"id": product_variant[1],
+			"name": product_variant[3],
+			"price": product_variant[6],
+			"image": product_variant[7]
+		})
+
+	return [products[id] for id in products]
+
+def get_product(product_variant_id:int) -> dict:
+	assert product_variant_id, "No Product Id provided."
 
 	data = fetch_one('''
-		SELECT 
-			product_id,
-			product_name,
-			description,
-			unit_price,
-			product_type
-		FROM products
-			LEFT JOIN product_type_ids ON products.product_type_id = product_type_ids.product_type_id
-		WHERE product_id = ?
+		SELECT
+			product_variants.product_variant_id,
+			products.product_name,
+			product_variants.product_variant_name,
+			products.description,
+			product_type_ids.product_type,
+			product_variants.unit_price,
+			product_variants.image
+		FROM product_variants
+			LEFT JOIN products ON product_variants.product_id = products.product_id
+			LEFT JOIN product_type_ids ON products.product_type_id = product_type_ids.product_type_id		  
+		WHERE product_variant_id = ?
 		LIMIT 1
-	''', (product_id,))
+	''', (product_variant_id,))
 
 	if data: return {
 		"id"	: data[0],
-		"name"	: data[1],
-		"description": data[2],
-		"unit_price" : data[3],
-		"type"	: data[4]
+		"name"	: f"{data[1]} - {data[2]}",
+		"description": data[3],
+		"type"	: data[4],
+		"price" : data[5],
+		"image"	: data[6]
 	}
 
 def get_orders(customer_id:int) -> list:
@@ -304,22 +343,22 @@ def create_tables():
 						"Name": "Black",
 						"Price": 25.99,
 						"Available": 5,
-						"Image": "poker_tee_black.png"
+						"Image": "static/product_images/poker_tee_black.png"
 					}, {
 						"Name": "White",
 						"Price": 25.99,
 						"Available": 5,
-						"Image": "poker_tee_white.png"
+						"Image": "static/product_images/poker_tee_white.png"
 					}, {
 						"Name": "Red",
 						"Price": 25.99,
 						"Available": 5,
-						"Image": "poker_tee_red.png"
+						"Image": "static/product_images/poker_tee_red.png"
 					}, {
 						"Name": "Blue",
 						"Price": 25.99,
 						"Available": 5,
-						"Image": "poker_tee_blue.png"
+						"Image": "static/product_images/poker_tee_blue.png"
 					}
 				]
 			}, {
@@ -332,22 +371,22 @@ def create_tables():
 						"Name": "Black",
 						"Price": 29.99,
 						"Available": 5,
-						"Image": "cns_tee_black.png"
+						"Image": "static/product_images/cns_tee_black.png"
 					}, {
 						"Name": "White",
 						"Price": 29.99,
 						"Available": 5,
-						"Image": "cns_tee_white.png"
+						"Image": "static/product_images/cns_tee_white.png"
 					}, {
 						"Name": "Red",
 						"Price": 29.99,
 						"Available": 5,
-						"Image": "cns_tee_red.png"
+						"Image": "static/product_images/cns_tee_red.png"
 					}, {
 						"Name": "Blue",
 						"Price": 29.99,
 						"Available": 5,
-						"Image": "cns_tee_blue.png"
+						"Image": "static/product_images/cns_tee_blue.png"
 					}
 				]
 			}, {
@@ -360,22 +399,22 @@ def create_tables():
 						"Name": "Black",
 						"Price": 29.99,
 						"Available": 5,
-						"Image": "money_tee_black.png"
+						"Image": "static/product_images/money_tee_black.png"
 					}, {
 						"Name": "White",
 						"Price": 29.99,
 						"Available": 5,
-						"Image": "money_tee_white.png"
+						"Image": "static/product_images/money_tee_white.png"
 					}, {
 						"Name": "Red",
 						"Price": 29.99,
 						"Available": 5,
-						"Image": "money_tee_red.png"
+						"Image": "static/product_images/money_tee_red.png"
 					}, {
 						"Name": "Blue",
 						"Price": 29.99,
 						"Available": 5,
-						"Image": "money_tee_blue.png"
+						"Image": "static/product_images/money_tee_blue.png"
 					}
 				]
 			}
@@ -385,7 +424,7 @@ def create_tables():
 			connection.execute("""
 				INSERT INTO products (product_id, product_name, description, product_type_id)
 				VALUES (?, ?, ?, ?)
-			""", (product['Id'], product['Name'], product['Id'], product['Type Id']))
+			""", (product['Id'], product['Name'], product['Description'], product['Type Id']))
 			for variant in product['Variants']:
 				connection.execute("""
 					INSERT INTO product_variants (product_id, product_variant_name, unit_price, quantity_available, image)

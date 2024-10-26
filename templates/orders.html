@@ -47,7 +47,7 @@
 		    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 
-		fetch("/orders/all")
+		fetch("/orders/info")
 			.then(response => response.json())
 			.then(data => {
 				

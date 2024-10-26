@@ -14,5 +14,3 @@ pip install Flask-Session
 pip install db-sqlite3
 
 pip install phonenumbers
-
-Test

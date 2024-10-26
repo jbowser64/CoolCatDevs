@@ -3,6 +3,7 @@
 from flask import Flask, send_from_directory, session, request, Response, redirect, render_template, jsonify
 from flask_session import Session
 from Util import Database
+from pprint import pprint
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -15,10 +16,6 @@ Session(app)
 def home():
 	return render_template("home.html")
 
-@app.route("/catalog")
-def catalog():
-	return render_template("catalog.html")
-
 @app.route("/about")
 def about():
 	return render_template("aboutus.html")
@@ -29,8 +26,7 @@ def contact():
 
 #--( Credentials )-------------------------------------------#
 def logged_in() -> bool:
-	print(session.get("customer_id"))
-	return session.get("customer_id")
+	return session.get("customer_id") != None
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -93,7 +89,19 @@ def logout():
 	return redirect("/")
 
 #--( Products )----------------------------------------------#
-@app.route("/products/info/<int:product_id>")
+@app.route("/catalog")
+def catalog():
+	data = Database.get_all_products()
+	return render_template("catalog.html", products = data)
+	#return render_template("catalog.html")
+
+@app.route("/catalog/info")
+def all_products():
+	products = Database.get_all_products()
+	if len(products) == 0: print("No products.")
+	return jsonify(products)
+
+@app.route("/catalog/info/<int:product_id>")
 def product_info(product_id):
 	product = Database.get_product(product_id)
 	if len(product) == 0: print("Product Id doesn't exist.")
@@ -106,7 +114,7 @@ def cart():
 		return redirect("/login")
 	return render_template("cart.html")  
 
-@app.route("/cart/items")
+@app.route("/cart/info")
 def cart_items():
 	if not logged_in():
 		return Response("Unauthorized", status=400)
@@ -135,8 +143,8 @@ def remove_from_cart():
 def orders():
 	return render_template("orders.html")
 
-@app.route("/orders/all")
-def orders_all():
+@app.route("/orders/info")
+def all_orders():
 	if not logged_in():
 		return Response("Unauthorized", status=400)
 
@@ -145,7 +153,7 @@ def orders_all():
 	if len(orders) == 0: print("No orders.")
 	return jsonify(orders)
 
-@app.route("/orders/<int:order_id>", methods=["GET"]) #, "PUT", "DELETE"
+@app.route("/orders/info/<int:order_id>", methods=["GET"]) #, "PUT", "DELETE"
 def order_details(order_id):
 	match request.method:
 		case "GET":
@@ -168,6 +176,7 @@ def order_details(order_id):
 #--( Run )---------------------------------------------------# 
 if __name__ == "__main__":
 	app.run(debug=False)
+	#pprint(Database.get_product(6))
 
 #@app.route("/participants")
 #def participants():

@@ -5,84 +5,60 @@
 {% block content %}
 <h1>Merchandise Catalog</h1>
 <p>Explore our unique selection of products below!</p>
-<div class="product-grid">
-	<div class="product-card" data-product-id="poker_tee">
-		<img src="static/product_images/poker_tee_black.png" alt="Cool Cat Poker">
-		<h3>Cool Cat Poker</h3>
-		<p>$25.99</p>
-		<p>Select Color:</p>
-		<select name="Select Color" class="select-product-variation" style="width: auto; border: solid; border-color: #27ae60">
-			<option value="black">Black</option>
-			<option value="white">White</option>
-			<option value="blue" >Blue</option>
-			<option value="red"  >Red</option>
-		</select>
-		<button class="add-to-cart">Add to Cart</button>
-	</div>
-
-	<div class="product-card" data-product-id="cns_tee">
-		<img src="static/product_images/cns_tee_black.png" alt="A Cat Named Slickback">
-		<h3>A Cat Named Slickback</h3>
-		<p>$29.99</p>
-		<p>Select Color:</p>
-		<select name="Select Color" class="select-product-variation" style="width: auto; border: solid; border-color: #27ae60">
-			<option value="black">Black</option>
-			<option value="white">White</option>
-			<option value="blue" >Blue</option>
-			<option value="red"  >Red</option>
-		</select>
-		<button class="add-to-cart">Add to Cart</button>
-	</div>
-
-	<div class="product-card" data-product-id="money_tee">
-		<img src="static/product_images/money_tee_black.png" alt="Cool Cat Cash">
-		<h3>Cool Cat Cash</h3>
-		<p>$29.99</p>
-		<p>Select Color:</p>
-		<select name="Select Color" class="select-product-variation" style="width: auto; border: solid; border-color: #27ae60">
-			<option value="black">Black</option>
-			<option value="white">White</option>
-			<option value="blue" >Blue</option>
-			<option value="red"  >Red</option>
-		</select>
-		<button class="add-to-cart">Add to Cart</button>
-	</div>
-	<!-- Add more products as needed -->
-</div>
-
+<div class="product-grid" id="product_grid"></div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-	const product_cards = document.querySelectorAll('.product-card');
+document.addEventListener("DOMContentLoaded", () => {
+	const product_grid = document.getElementById("product_grid");
+	const products_json = JSON.parse(`{{ products | tojson | safe }}`);
 
-	product_cards.forEach(card => {
-		const img = card.querySelector('img');
-		const select = card.querySelector('.select-product-variation');
-		const purchase_button = card.querySelector('.add-to-cart');
-		const product_name = card.dataset.productId;
-		console.log(product_name)
+	products_json.forEach(product => {
+		const frm_card = document.createElement("div");
+		frm_card.className = "product-card";
+		
+		const img_variant = document.createElement("img");
+		img_variant.src = product.variants[0].image;
 
-		if (!select) {
-			console.error(`Select element not found in card ${product_name}`);
-			return; // Skip this iteration if select is not found
-		} else if (!img) {
-			console.error(`Image element not found in card ${product_name}`);
-			return; // Skip this iteration if img is not found
-		} else if (!purchase_button) {
-			console.error(`Purchase button element not found in card ${product_name}`);
-			return; // Skip this iteration if img is not found
-		}
+		const lbl_name = document.createElement("h3");
+		lbl_name.textContent = product.name;
 
-		select.addEventListener('change', (e) => {
-			let color = e.target.value;
-			console.log(`Color changed to ${color} for ${product_name}`);
-			img.src = `/static/product_images/${product_name}_${color}.png`;
+		const lbl_price = document.createElement("p");
+		lbl_price.textContent = `$${product.variants[0].price.toFixed(2)}`;
+
+		const lbl_variant = document.createElement("p");
+		lbl_variant.textContent = "Select Color:";
+
+		const rdo_variants = document.createElement("select");
+		rdo_variants.style.width = "auto";
+		rdo_variants.style.border = "solid";
+		rdo_variants.style.borderColor = "#27ae60";
+
+		product.variants.forEach(variant => {
+			const option = document.createElement("option");
+			option.value = variant.id;
+			option.textContent = variant.name;
+			rdo_variants.appendChild(option);
+		});
+
+		const btn_purchase = document.createElement("button");
+		btn_purchase.className = "add-to-cart";
+		btn_purchase.textContent = "Add to Cart";
+
+		frm_card.append(img_variant, lbl_name, lbl_price, lbl_variant, rdo_variants, btn_purchase);
+		product_grid.appendChild(frm_card);
+
+		rdo_variants.addEventListener("change", (e) => {
+			const variant_id = parseInt(e.target.value);
+			const variant = product.variants.find(v => v.id === variant_id);
+			img_variant.src = `/${variant.image}`;
+			lbl_price.textContent = `$${variant.price.toFixed(2)}`;
+		});
+
+		btn_purchase.addEventListener("click", () => {
+			const variant_id = parseInt(rdo_variants.value);
+			alert("Add product " + variant_id + " to cart.");
 		});
 	});
 });
 </script>
 {% endblock %}
-
-
-
-<!-- I believe we should be able to have this link straight to the products page in the database -->
