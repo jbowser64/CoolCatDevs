@@ -1,6 +1,6 @@
 =========== Login ==========
 
-dnavarro@example.org | PASSWORD
+admin@email.com | PASSWORD
 
 
 ========== Dependencies ==========

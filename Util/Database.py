@@ -8,7 +8,7 @@ import phonenumbers
 import sqlite3
 
 UTIL_FOLDER_PATH = path.dirname(path.dirname(path.abspath(__file__)))
-DATABASE_PATH = path.join(UTIL_FOLDER_PATH, "Resources", "database.db")
+DATABASE_PATH = path.join(UTIL_FOLDER_PATH, "Resources", "Database.db")
 
 #------------------------[ Database ]------------------------#
 def fetch_one(query:str, parameters:tuple|None=None) -> any:
@@ -88,7 +88,7 @@ def get_product(product_id:int) -> dict:
 			unit_price,
 			product_type
 		FROM products
-			LEFT JOIN product_types ON products.product_type_id = product_types.product_type_id
+			LEFT JOIN product_type_ids ON products.product_type_id = product_type_ids.product_type_id
 		WHERE product_id = ?
 		LIMIT 1
 	''', (product_id,))
@@ -108,10 +108,10 @@ def get_orders(customer_id:int) -> list:
 		return fetch_all('''
 			SELECT
 				orders.order_id,
-				statuses.status,
+				order_statuses.status,
 				orders.created
 			FROM orders
-				LEFT JOIN statuses ON orders.status_id = statuses.status_id
+				LEFT JOIN order_statuses ON orders.status_id = order_statuses.status_id
 			WHERE 1 = 1
 				AND orders.customer_id = ?
 			GROUP BY orders.order_id
@@ -121,16 +121,18 @@ def get_orders(customer_id:int) -> list:
 	def fetch_order_items(order_id:int) -> list:
 		return fetch_all('''
 			SELECT
-				order_items.product_id,
+				order_items.product_variant_id,
 				products.product_name,
+				product_variants.product_variant_name,
 				order_items.quantity,
 				order_items.unit_price,
 				ROUND(SUM(order_items.quantity * order_items.unit_price), 2) as total_price
 			FROM order_items
-				LEFT JOIN products ON order_items.product_id = products.product_id	  
+				LEFT JOIN product_variants ON order_items.product_variant_id = product_variants.product_variant_id
+				LEFT JOIN products ON product_variants.product_id = products.product_id	 
 			WHERE 1 = 1
 				AND order_items.order_id = ?
-			GROUP BY order_items.product_id
+			GROUP BY order_items.product_variant_id
 			ORDER BY total_price DESC
 		''', (order_id, ))
 	
@@ -141,14 +143,14 @@ def get_orders(customer_id:int) -> list:
 		total_items = 0
 		
 		for item_data in fetch_order_items(order_data[0]):
-			total_items += item_data[2]
-			total_price += item_data[4]
+			total_items += item_data[3]
+			total_price += item_data[5]
 			order_items.append({
 				"id"		: item_data[0],
-				"name"		: item_data[1],
-				"quantity"	: item_data[2],
-				"unit_price"  : item_data[3]
-				#"total_price" : item_data[4]
+				"name"		: f"{item_data[1]} - {item_data[2]}",
+				"quantity"	: item_data[3],
+				"unit_price"  : item_data[4]
+				#"total_price" : item_data[5]
 			})
 		
 		orders.append({
@@ -168,18 +170,19 @@ def get_order_items(customer_id:int, order_id:int) -> list:
 
 	order_items = fetch_all('''
 		SELECT
-			order_items.product_id,
+			order_items.product_variant_id,
 			products.product_name,
 			order_items.quantity,
 			order_items.unit_price,
 			ROUND(SUM(order_items.quantity * order_items.unit_price), 2) as total_price
 		FROM orders
 			LEFT JOIN order_items ON orders.order_id = order_items.order_id
-			LEFT JOIN products ON order_items.product_id = products.product_id	  
+			LEFT JOIN product_variants ON order_items.product_variant_id = product_variants.product_variant_id
+			LEFT JOIN products ON product_variants.product_id = products.product_id	  
 		WHERE 1 = 1
 			AND orders.customer_id = ?
 			AND orders.order_id = ?
-		GROUP BY order_items.product_id
+		GROUP BY order_items.product_variant_id
 		ORDER BY order_items.quantity DESC
 	''', (customer_id, order_id))
 
@@ -196,32 +199,31 @@ def get_cart_items(customer_id:int) -> list:
 
 	cart_items = fetch_all('''
 		SELECT
-			cart_items.product_id,
+			cart_items.product_variant_id,
 			products.product_name,
+			product_variants.product_variant_name,
 			products.description,
-			products.unit_price,
+			product_variants.unit_price,
 			cart_items.quantity,
-			product_types.product_type
+			product_type_ids.product_type
 		FROM cart_items
-			LEFT JOIN products ON cart_items.product_id = products.product_id
-			LEFT JOIN product_types on products.product_type_id = product_types.product_type_id
+			LEFT JOIN product_variants ON cart_items.product_variant_id = product_variants.product_variant_id
+			LEFT JOIN products ON product_variants.product_id = products.product_id
+			LEFT JOIN product_type_ids on products.product_type_id = product_type_ids.product_type_id
 		WHERE 1=1
 			AND cart_items.customer_id = ?
-		GROUP BY cart_items.product_id
+		GROUP BY cart_items.product_variant_id
 		ORDER BY cart_items.quantity DESC
 	''', (customer_id, ))
 
 	return [{
 		"id"		: cart_item[0],
-		"name"		: cart_item[1],
-		"description": cart_item[2],
-		"unit_price": cart_item[3],
-		"quantity"	: cart_item[4],
-		"type"		: cart_item[5]
+		"name"		: f"{cart_item[1]} - {cart_item[2]}",
+		"description": cart_item[3],
+		"unit_price": cart_item[4],
+		"quantity"	: cart_item[5],
+		"type"		: cart_item[6]
 	} for cart_item in cart_items]
-
-
-
 
 #-------------------------[ Insert ]-------------------------#
 def signup_customer(first_name:str, last_name:str, password:str, email:str|None=None, phone_number:str|None=None) -> dict:
@@ -265,55 +267,164 @@ def create_tables():
 		
 		# Product Types Table
 		connection.execute('''
-			CREATE TABLE IF NOT EXISTS product_types (
+			CREATE TABLE IF NOT EXISTS product_type_ids (
 				product_type_id INTEGER PRIMARY KEY,
 				product_type TEXT )''')
+		connection.execute("INSERT INTO product_type_ids (product_type) VALUES ('Shirt')")
+		connection.execute("INSERT INTO product_type_ids (product_type) VALUES ('Pants')")
 	
 		# Products Table
 		connection.execute('''
 			CREATE TABLE IF NOT EXISTS products (
-				product_id INTEGER PRIMARY KEY AUTOINCREMENT,
+				product_id INTEGER PRIMARY KEY,
 				product_name TEXT NOT NULL,
 				description TEXT NOT NULL,
-				unit_price NUMERIC(4, 2) NOT NULL,
-				product_type_id INTEGER REFERENCES product_types (product_type_id),
-				quantity_available INTEGER NOT NULL )''')
+				product_type_id INTEGER REFERENCES product_type_ids (product_type_id) )''')
 		connection.execute('''CREATE INDEX IF NOT EXISTS index_product_name ON products (product_name)''')
 		connection.execute('''CREATE INDEX IF NOT EXISTS index_product_type ON products (product_type_id)''')
+
+		# Products Variants Table
+		connection.execute('''
+			CREATE TABLE IF NOT EXISTS product_variants (
+				product_variant_id INTEGER PRIMARY KEY AUTOINCREMENT,
+				product_id INTEGER NOT NULL,
+				product_variant_name TEXT,
+				unit_price NUMERIC(4, 2) NOT NULL,
+				quantity_available INTEGER NOT NULL,
+				image TEXT )''')
+		
+		products = [
+			{
+				"Id": 1,
+				"Name": "Cool Cat Poker",
+				"Description": "Because only the coolest cats play poker.",
+				"Type Id": 1,
+				"Variants": [
+					{
+						"Name": "Black",
+						"Price": 25.99,
+						"Available": 5,
+						"Image": "poker_tee_black.png"
+					}, {
+						"Name": "White",
+						"Price": 25.99,
+						"Available": 5,
+						"Image": "poker_tee_white.png"
+					}, {
+						"Name": "Red",
+						"Price": 25.99,
+						"Available": 5,
+						"Image": "poker_tee_red.png"
+					}, {
+						"Name": "Blue",
+						"Price": 25.99,
+						"Available": 5,
+						"Image": "poker_tee_blue.png"
+					}
+				]
+			}, {
+				"Id": 2,
+				"Name": "A Cat Named Slickback",
+				"Description": "A doggy bag is 90 bucks, a tee shirt is 30.",
+				"Type Id": 1,
+				"Variants": [
+					{
+						"Name": "Black",
+						"Price": 29.99,
+						"Available": 5,
+						"Image": "cns_tee_black.png"
+					}, {
+						"Name": "White",
+						"Price": 29.99,
+						"Available": 5,
+						"Image": "cns_tee_white.png"
+					}, {
+						"Name": "Red",
+						"Price": 29.99,
+						"Available": 5,
+						"Image": "cns_tee_red.png"
+					}, {
+						"Name": "Blue",
+						"Price": 29.99,
+						"Available": 5,
+						"Image": "cns_tee_blue.png"
+					}
+				]
+			}, {
+				"Id": 3,
+				"Name": "Cool Cat Cash",
+				"Description": "Just a baker kneading his dough.",
+				"Type Id": 1,
+				"Variants": [
+					{
+						"Name": "Black",
+						"Price": 29.99,
+						"Available": 5,
+						"Image": "money_tee_black.png"
+					}, {
+						"Name": "White",
+						"Price": 29.99,
+						"Available": 5,
+						"Image": "money_tee_white.png"
+					}, {
+						"Name": "Red",
+						"Price": 29.99,
+						"Available": 5,
+						"Image": "money_tee_red.png"
+					}, {
+						"Name": "Blue",
+						"Price": 29.99,
+						"Available": 5,
+						"Image": "money_tee_blue.png"
+					}
+				]
+			}
+		]
+
+		for product in products:
+			connection.execute("""
+				INSERT INTO products (product_id, product_name, description, product_type_id)
+				VALUES (?, ?, ?, ?)
+			""", (product['Id'], product['Name'], product['Id'], product['Type Id']))
+			for variant in product['Variants']:
+				connection.execute("""
+					INSERT INTO product_variants (product_id, product_variant_name, unit_price, quantity_available, image)
+					VALUES (?, ?, ?, ?, ?)
+				""", (product['Id'], variant['Name'], variant['Price'], variant['Available'], variant['Image']))
 	
 		# Cart Items Table
 		connection.execute('''
 			CREATE TABLE IF NOT EXISTS cart_items (
 				cart_item_id INTEGER PRIMARY KEY AUTOINCREMENT,
 				customer_id INTEGER NOT NULL REFERENCES customers (customer_id),
-				product_id INTEGER NOT NULL REFERENCES products (product_id),
+				product_variant_id INTEGER NOT NULL REFERENCES product_variants (product_variant_id),
 				quantity INTEGER NOT NULL )''')
 		connection.execute('''CREATE INDEX IF NOT EXISTS index_cart_item_customer ON cart_items (customer_id)''')
 		
 		# Cart Status Types Table
 		connection.execute('''
-			CREATE TABLE IF NOT EXISTS statuses (
+			CREATE TABLE IF NOT EXISTS order_statuses (
 				status_id INTEGER PRIMARY KEY,
 				status TEXT )''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (1, 'Pending Payment')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (2, 'Failed')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (3, 'On Hold')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (4, 'Processing')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (5, 'Completed')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (6, 'Canceled')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (7, 'Refunded')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (8, 'Backordered')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (9, 'Partially Shipped')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (10, 'Shipped')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (11, 'Out for Delivery')''')
-		connection.execute('''INSERT OR IGNORE INTO statuses (status_id, status) VALUES (12, 'Delivered')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (1, 'Pending Payment')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (2, 'Failed')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (3, 'On Hold')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (4, 'Processing')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (5, 'Completed')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (6, 'Canceled')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (7, 'Refunded')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (8, 'Backordered')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (9, 'Partially Shipped')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (10, 'Shipped')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (11, 'Out for Delivery')''')
+		connection.execute('''INSERT OR IGNORE INTO order_statuses (status_id, status) VALUES (12, 'Delivered')''')
 		
 		# Orders Table
 		connection.execute('''
 			CREATE TABLE IF NOT EXISTS orders (
 				order_id INTEGER PRIMARY KEY AUTOINCREMENT,
 				customer_id INTEGER NOT NULL REFERENCES customers (customer_id),
-				status_id INTEGER NOT NULL REFERENCES statuses (status_id),
+				status_id INTEGER NOT NULL REFERENCES order_statuses (status_id),
 				created INTEGER NOT NULL,
 				updated INTEGER NOT NULL )''')
 		connection.execute('''CREATE INDEX IF NOT EXISTS index_order_customer ON orders (customer_id)''')
@@ -323,7 +434,7 @@ def create_tables():
 			CREATE TABLE IF NOT EXISTS order_items (
 				order_item_id INTEGER PRIMARY KEY AUTOINCREMENT,
 				order_id INTEGER NOT NULL REFERENCES orders (order_id),
-				product_id INTEGER NOT NULL REFERENCES products (product_id),
+				product_variant_id INTEGER NOT NULL REFERENCES product_variants (product_variant_id),
 				quantity INTEGER NOT NULL,
 				unit_price NUMERIC(4, 2) NOT NULL )''')
 		connection.execute('''CREATE INDEX IF NOT EXISTS index_order_item_order ON order_items (order_id)''')
@@ -339,78 +450,57 @@ def populate_tables():
 	with sqlite3.connect(DATABASE_PATH) as connection:
 		cursor = connection.cursor()
 
-		# Generate sample data for customers
-		for _ in range(100):
-			first_name = fake.first_name()
-			last_name = fake.last_name()
-			email = fake.email()
-			#phone_number = fake.phone_number()
-			phone_number = "+1" + str(fake.random_int(min=1000000000, max=9999999999))
-			password = generate_password_hash("PASSWORD") #fake.password()
-			street = fake.street_address()
-			city = fake.city()
-			state = fake.state()
-			zip_code = fake.zipcode()
-			created = int(fake.unix_time())
-			updated = created
+		# Sample Customer
+		first_name = "Test"
+		last_name = "Account"
+		email = "admin@email.com"
+		phone_number = "+11234567890" #+ str(fake.random_int(min=1000000000, max=9999999999))
+		password = generate_password_hash("PASSWORD")
 
-			cursor.execute("""
-				INSERT INTO customers (first_name, last_name, email, phone_number, password, street, city, state, zip_code, created, updated)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-			""", (first_name, last_name, email, phone_number, password, street, city, state, zip_code, created, updated))
+		street = fake.street_address()
+		city = fake.city()
+		state = fake.state()
+		zip_code = fake.zipcode()
+		created = generate_timestamp()
+		updated = created
 
-		# Generate sample data for product types
-		product_types = ["Shirt", "Pants", "Sweater", "Dress"]
-		for product_type in product_types:
-			cursor.execute("INSERT INTO product_types (product_type) VALUES (?)", (product_type,))
+		cursor.execute("""
+			INSERT INTO customers (first_name, last_name, email, phone_number, password, street, city, state, zip_code, created, updated)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		""", (first_name, last_name, email, phone_number, password, street, city, state, zip_code, created, updated))
 
-		# Generate sample data for products
-		for _ in range(50):
-			product_name = fake.word()
-			description = fake.sentence()
-			unit_price = round(fake.random_int(min=10, max=25000)/100, 2)
-			quantity_available = fake.random_int(min=0, max=100)
-			product_type_id = fake.random_int(min=1, max=len(product_types))
-
-			cursor.execute("""
-				INSERT INTO products (product_name, description, unit_price, quantity_available, product_type_id)
-				VALUES (?, ?, ?, ?, ?)
-			""", (product_name, description, unit_price, quantity_available, product_type_id))
 
 		# Generate sample data for cart items
-		for _ in range(100):
-			customer_id = fake.random_element([row[0] for row in cursor.execute("SELECT customer_id FROM customers").fetchall()])
-			product_id = fake.random_element([row[0] for row in cursor.execute("SELECT product_id FROM products").fetchall()])
-			quantity = fake.random_int(min=1, max=10)
+		customer_id = 1
+		product_variant_id = fake.random_element([row[0] for row in cursor.execute("SELECT product_variant_id FROM product_variants").fetchall()])
+		quantity = fake.random_int(min=1, max=10)
 
-			cursor.execute("""
-				INSERT INTO cart_items (customer_id, product_id, quantity)
-				VALUES (?, ?, ?)
-			""", (customer_id, product_id, quantity))
+		cursor.execute("""
+			INSERT INTO cart_items (customer_id, product_variant_id, quantity)
+			VALUES (?, ?, ?)
+		""", (customer_id, product_variant_id, quantity))
 
-		# Generate sample data for orders
-		for _ in range(50):
-			customer_id = fake.random_element([row[0] for row in cursor.execute("SELECT customer_id FROM customers").fetchall()])
+		for order_id in range(1, 3):
 			status_id = fake.random_int(min=1, max=12)
-			created = int(fake.unix_time())
-			updated = fake.random_int(min=created, max=1728000000)
+			created = generate_timestamp()
+			updated = created
 
 			cursor.execute("""
 				INSERT INTO orders (customer_id, status_id, created, updated)
 				VALUES (?, ?, ?, ?)
-			""", (customer_id, status_id, created, updated) )
+			""", (1, status_id, created, updated) )
 
-		# Generate sample data for order items
-		for _ in range(200):
-			order_id = fake.random_element([row[0] for row in cursor.execute("SELECT order_id FROM orders").fetchall()])
-			product_id = fake.random_element([row[0] for row in cursor.execute("SELECT product_id FROM products").fetchall()])
-			quantity = fake.random_int(min=1, max=3)
-			unit_price = fake.random_element([row[2] for row in cursor.execute("SELECT product_id, product_name, unit_price FROM products").fetchall()])
+			for _ in range(fake.random_int(min=1, max=4)):
+				product = fake.random_element([(row[0], row[1]) for row in cursor.execute("SELECT product_variant_id, unit_price FROM product_variants").fetchall()])
+				product_variant_id	= product[0]
+				unit_price			= product[1]
+				quantity = fake.random_int(min=1, max=3)
 
-			cursor.execute("""
-				INSERT INTO order_items (order_id, product_id, quantity, unit_price)
-				VALUES (?, ?, ?, ?)
-			""", (order_id, product_id, quantity, unit_price))
+				cursor.execute("""
+					INSERT INTO order_items (order_id, product_variant_id, quantity, unit_price)
+					VALUES (?, ?, ?, ?)
+				""", (order_id, product_variant_id, quantity, unit_price))
+
 
 		print("Finished Populating Tables.")
 
@@ -419,6 +509,6 @@ try:
 	with sqlite3.connect(DATABASE_PATH) as connection: pass
 except sqlite3.OperationalError: DATABASE_PATH = path.basename(DATABASE_PATH)
 
-if __name__ == "__main__":
-	create_tables()
-	#populate_tables()
+#if __name__ == "__main__":
+#	create_tables()
+#	populate_tables()
