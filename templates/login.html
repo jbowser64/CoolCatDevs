@@ -5,6 +5,12 @@
 {% block content %}
 <div class="login-container">
 	<h1>Log In</h1>
+
+	<!-- Error message display -->
+	{% if login_error %}
+	<div class="error-message">{{ login_error }}</div>
+	{% endif %}
+
 	<form action="/login" method="POST">
 		<input placeholder="Email"
 			   autocomplete="off"
@@ -12,12 +18,12 @@
 			   name="email"
 			   required>
 		<input id="phone_number"
-			   placeholder="Phone Number"
+			   placeholder="Phone Number (optional)"
 			   autocomplete="off"
 			   type="tel"
 			   name="phone_number"
-			   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-			   title="123-123-1234">
+			   pattern="[0-9]{10}"
+			   title="Enter a 10-digit phone number, e.g., 1234567890">
 		<input placeholder="Password"
 			   autocomplete="off"
 			   type="password"

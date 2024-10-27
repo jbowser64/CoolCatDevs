@@ -234,14 +234,14 @@ body {
 /* NAV LINKS STYLING */
 .nav-links {
 	list-style: none;
-	margin-right: 80px;
+	margin-right: 200px;
 	display: inline-flex;
 	justify-content: space-between;
 	flex: 2; 
 }
 
 	.nav-links li {
-		margin-left: 20px;
+		margin-left:50px;
 	}
 
 	.nav-links a {
@@ -403,5 +403,11 @@ footer {
 		.login-container button:hover {
 			background-color: #9370db; 
 		}
+.error-message {
+	color: red;
+	margin-bottom: 15px;
+	font-weight: bold;
+}
 
+}
 		/* LOGIN PAGE STYLING END */

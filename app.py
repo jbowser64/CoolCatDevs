@@ -38,7 +38,9 @@ def login():
 				password = request.form.get("password"),
 				email = request.form.get("email"),
 				phone_number = request.form.get("phone_number") )
-			if not data: return render_template("login.html")
+			if not data:
+                # Pass error message to template if login fails
+				return render_template("login.html", login_error="Invalid email, phone number, or password.")
 			
 			session["customer_id"] = data["id"]
 			session["first_name"]  = data["first_name"]
