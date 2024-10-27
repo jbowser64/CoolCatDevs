@@ -353,7 +353,7 @@ footer {
 
 
 
-/* UPDATED LOGIN PAGE STYLING */
+/* UPDATED LOGIN PAGE & SIGN UP PAGE STYLING */
 .login-container {
 	width: 400px;
 	margin: 100px auto;
@@ -408,6 +408,21 @@ footer {
 	margin-bottom: 15px;
 	font-weight: bold;
 }
+.signup-link {
+	color: #ddd;
+	font-style: italic;
+	font-size: 14px;
+}
+
+.signup-link a {
+		color: var(--primary-color);
+		text-decoration: underline;
+}
 
 }
-		/* LOGIN PAGE STYLING END */
+	/* LOGIN PAGE & SIGN UP PAGE STYLING END */
+
+
+	
+			
+	

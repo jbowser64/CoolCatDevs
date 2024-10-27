@@ -3,15 +3,21 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
+<div class="login-container">
 	<h1>Sign Up</h1>
 	<form action="/signup" method="POST">
-		<input placeholder="First and last name" autocomplete="off" type="text" name="name">
-		<input placeholder="Mobile number or email" autocomplete="off" type="text" name="contact">
-		<input placeholder="Password"		 autocomplete="off" type="password" name="password_1">
-		<input placeholder="Repeat Password" autocomplete="off" type="password" name="password_2">
-		<input type="submit" name="Register">
+		<input placeholder="First and last name" autocomplete="off" type="text" name="name" required>
+		<input placeholder="Mobile number or email" autocomplete="off" type="text" name="contact" required>
+		<input placeholder="Password" autocomplete="off" type="password" name="password_1" required>
+		<input placeholder="Repeat Password" autocomplete="off" type="password" name="password_2" required>
+		<button type="submit">Register</button>
 	</form>
+	<p class="signup-link">Already have an account? <a href="/login">Log in here</a></p>
+</div>
 {% endblock %}
+
+
+
 
 <!--
 	<input placeholder="Street" autocomplete="off" type="text" name="street">
