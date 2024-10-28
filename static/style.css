@@ -422,7 +422,18 @@ footer {
 }
 	/* LOGIN PAGE & SIGN UP PAGE STYLING END */
 
+	/* Error message styling */
 
-	
-			
-	
+.error-message {
+	color: #ff4d4d; 
+	background-color: #ffe6e6; 
+	border: 1px solid #ff4d4d; 
+	border-radius: 5px;
+	padding: 10px;
+	margin: 10px 0;
+	font-weight: bold;
+	text-align: center;
+	font-size: 14px;
+}
+
+	/* Error Message Styling END */

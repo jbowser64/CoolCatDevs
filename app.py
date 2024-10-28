@@ -25,70 +25,66 @@ def contact():
 	return render_template("contactus.html")
 
 #--( Credentials )-------------------------------------------#
+
 def logged_in() -> bool:
-	return session.get("customer_id") != None
+    return session.get("customer_id") is not None
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-	match request.method:
-		case "GET":
-			return render_template("login.html")
-		case "POST":
-			data = Database.login_customer(
-				password = request.form.get("password"),
-				email = request.form.get("email"),
-				phone_number = request.form.get("phone_number") )
-			if not data:
-                # Pass error message to template if login fails
-				return render_template("login.html", login_error="Invalid email, phone number, or password.")
-			
-			session["customer_id"] = data["id"]
-			session["first_name"]  = data["first_name"]
-			return redirect("/")
+    if request.method == "GET":
+        return render_template("login.html")
+    else:
+        data = Database.login_customer(
+            password=request.form.get("password"),
+            email=request.form.get("email"),
+            phone_number=request.form.get("phone_number")
+        )
+        if not data:
+            return render_template("login.html", login_error="Invalid email, phone number, or password.")
+        
+        session["customer_id"] = data["id"]
+        session["first_name"] = data["first_name"]
+        return redirect("/")
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-	match request.method:
-		case "GET":
-			return render_template("signup.html")
-		case "POST":
-			assert request.form.get("password_1") == request.form.get("password_2"), "Password's don't match."
-			
-			print(
-				request.form.get("name"),
-				request.form.get("contact"),
-				request.form.get("password_1"),
-				request.form.get("password_2")
-			)
+    if request.method == "GET":
+        return render_template("signup.html")
+    else:
+        password_1 = request.form.get("password_1")
+        password_2 = request.form.get("password_2")
+        
+        # Check if passwords match
+        if password_1 != password_2:
+            return render_template("signup.html", signup_error="Passwords don't match.")
+        
+        name = request.form.get("name").split(" ")
+        first_name, last_name = name[0], name[-1]
+        
+        contact = request.form.get("contact")
+        email, phone_number = (contact, None) if "@" in contact else (None, contact)
 
-			name = str.split(request.form.get("name"), " ")
-			first_name, last_name = name[0], name[-1]
-			
-			contact = request.form.get("contact")
-			email, phone_number = None, None
-			if "@" in contact:
-				assert str.find(contact, ".") > str.find(contact, "@"), "Period found in front of @ in email."
-				email = contact
-				print("Email:", contact)
-			else:
-				phone_number = contact
-				print("Phone:", contact)
-			
-			data = Database.signup_customer(
-				first_name = first_name,
-				last_name  = last_name,
-				password   = request.form.get("password_1"),
-				email		 = email,
-				phone_number = phone_number )
-
-			session["customer_id"] = data["id"]
-			session["first_name"]  = data["first_name"]
-			return redirect("/")
+        # Attempt to create a new user in the database
+        try:
+            data = Database.signup_customer(
+                first_name=first_name,
+                last_name=last_name,
+                password=password_1,
+                email=email,
+                phone_number=phone_number
+            )
+        except Exception as e:
+            return render_template("signup.html", signup_error="Error creating account. Please try again.")
+        
+        session["customer_id"] = data["id"]
+        session["first_name"] = data["first_name"]
+        return redirect("/")
 
 @app.route("/logout")
 def logout():
-	session.clear()
-	return redirect("/")
+    session.clear()
+    return redirect("/")
+
 
 #--( Products )----------------------------------------------#
 @app.route("/catalog")

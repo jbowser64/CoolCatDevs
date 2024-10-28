@@ -5,6 +5,12 @@
 {% block content %}
 <div class="login-container">
 	<h1>Sign Up</h1>
+
+	<!-- Display error message if any -->
+	{% if signup_error %}
+	<p class="error-message">{{ signup_error }}</p>
+	{% endif %}
+
 	<form action="/signup" method="POST">
 		<input placeholder="First and last name" autocomplete="off" type="text" name="name" required>
 		<input placeholder="Mobile number or email" autocomplete="off" type="text" name="contact" required>
@@ -15,8 +21,6 @@
 	<p class="signup-link">Already have an account? <a href="/login">Log in here</a></p>
 </div>
 {% endblock %}
-
-
 
 
 <!--
