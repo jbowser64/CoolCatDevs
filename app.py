@@ -117,8 +117,7 @@ def cart_items():
 	if not logged_in():
 		return Response("Unauthorized", status=400)
 
-	cart_items = Database.get_cart_items(
-		customer_id = session.get("customer_id") )
+	cart_items = Database.get_cart( session.get("customer_id") )
 	if len(cart_items) == 0: print("No items in cart.")
 	return jsonify(cart_items)
 
@@ -126,15 +125,34 @@ def cart_items():
 def add_to_cart():
 	if not logged_in():
 		return redirect("/login")
+	
+	data = request.get_json()
+	product_variant_id = data["product_variant_id"]
+	quantity = data["quantity"] if "quantity" in data else 1
+	
+	Database.add_to_cart(
+		customer_id = session.get("customer_id"),
+		product_variant_id = product_variant_id,
+		quantity = quantity )
 
-	print("Add item to cart")
+	return jsonify({"message": "Item(s) added to cart successfully"}), 201
+
 
 @app.route("/cart/remove", methods=["POST"])
 def remove_from_cart():
 	if not logged_in():
 		return redirect("/login")
+	
+	data = request.get_json()
+	product_variant_id = data["product_variant_id"]
+	quantity = data["quantity"] if "quantity" in data else 999
+	
+	Database.remove_from_cart(
+		customer_id = session.get("customer_id"),
+		product_variant_id = product_variant_id,
+		quantity = quantity )
 
-	print("Remove item from cart")
+	return jsonify({"message": "Item(s) removed to cart successfully"}), 201
 
 #--( Orders )------------------------------------------------# 
 @app.route("/orders")
@@ -146,8 +164,7 @@ def all_orders():
 	if not logged_in():
 		return Response("Unauthorized", status=400)
 
-	orders = Database.get_orders(
-		customer_id = session.get("customer_id") )
+	orders = Database.get_orders( session.get("customer_id") )
 	if len(orders) == 0: print("No orders.")
 	return jsonify(orders)
 
@@ -155,11 +172,11 @@ def all_orders():
 def order_details(order_id):
 	match request.method:
 		case "GET":
-			order_items = Database.get_order_items(
+			order_info = Database.get_order_info(
 				customer_id = session.get("customer_id"), 
 				order_id	= order_id )
-			if len(order_items) == 0: print("No items in order.")
-			return jsonify(order_items)
+			if len(order_info) == 0: print("No items in order.")
+			return jsonify(order_info)
 	
 	#case "PUT":
 	#	# Handle PUT requests to update an order

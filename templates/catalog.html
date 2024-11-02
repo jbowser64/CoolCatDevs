@@ -56,7 +56,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		btn_purchase.addEventListener("click", () => {
 			const variant_id = parseInt(rdo_variants.value);
-			alert("Add product " + variant_id + " to cart.");
+			const quantity = 1
+
+			if (confirm("Add " + quantity + " of product " + variant_id + " to cart?")) {
+				fetch("/cart/add", {
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify({
+						product_variant_id: variant_id,
+						quantity: quantity
+					})
+				})
+				.then(response => {
+					if (response.ok) { alert("Item added to cart successfully!"); } 
+					else { alert("Error adding item to cart. Please try again."); }
+				})
+				.catch(error => {
+					console.error("Error:", error);
+					alert("An error occurred. Please try again later.");
+				});
+			}
 		});
 	});
 });
