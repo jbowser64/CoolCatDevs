@@ -422,7 +422,7 @@ footer {
 }
 	/* LOGIN PAGE & SIGN UP PAGE STYLING END */
 
-	/* Error message styling */
+	/* Error/Success message styling */
 
 .error-message {
 	color: #ff4d4d; 
@@ -436,4 +436,11 @@ footer {
 	font-size: 14px;
 }
 
-	/* Error Message Styling END */
+.success-message {
+	color: green;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+
+	/* Error/Success Message Styling END */

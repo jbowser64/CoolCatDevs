@@ -6,21 +6,43 @@
 <div class="login-container">
 	<h1>Sign Up</h1>
 
-	<!-- Display error message if any -->
+	<!-- Display error or success message if any -->
 	{% if signup_error %}
 	<p class="error-message">{{ signup_error }}</p>
+	{% elif signup_success %}
+	<p class="success-message">{{ signup_success }}</p>
 	{% endif %}
 
 	<form action="/signup" method="POST">
-		<input placeholder="First and last name" autocomplete="off" type="text" name="name" required>
-		<input placeholder="Mobile number or email" autocomplete="off" type="text" name="contact" required>
-		<input placeholder="Password" autocomplete="off" type="password" name="password_1" required>
-		<input placeholder="Repeat Password" autocomplete="off" type="password" name="password_2" required>
+		<input placeholder="First and last name"
+			   autocomplete="off"
+			   type="text"
+			   name="name"
+			   value="{{ request.form.get('name', '') }}"
+			   required>
+		<input placeholder="Email"
+			   autocomplete="off"
+			   type="email"
+			   name="email"
+			   value="{{ request.form.get('email', '') }}"
+			   required>
+		<input placeholder="Password"
+			   autocomplete="off"
+			   type="password"
+			   name="password_1"
+			   required>
+		<input placeholder="Repeat Password"
+			   autocomplete="off"
+			   type="password"
+			   name="password_2"
+			   required>
 		<button type="submit">Register</button>
 	</form>
 	<p class="signup-link">Already have an account? <a href="/login">Log in here</a></p>
 </div>
 {% endblock %}
+
+
 
 
 <!--

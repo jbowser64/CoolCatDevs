@@ -46,7 +46,7 @@ def login():
         session["first_name"] = data["first_name"]
         return redirect("/")
 
-@app.route("/signup", methods=["GET", "POST"])
+@app.route("/signup", methods=["GET", "POST"]) 
 def signup():
     if request.method == "GET":
         return render_template("signup.html")
@@ -54,7 +54,6 @@ def signup():
         password_1 = request.form.get("password_1")
         password_2 = request.form.get("password_2")
         
-        # Check if passwords match
         if password_1 != password_2:
             return render_template("signup.html", signup_error="Passwords don't match.")
         
@@ -62,23 +61,28 @@ def signup():
         first_name, last_name = name[0], name[-1]
         
         contact = request.form.get("contact")
-        email, phone_number = (contact, None) if "@" in contact else (None, contact)
+        email = contact if contact and "@" in contact else None
 
-        # Attempt to create a new user in the database
         try:
             data = Database.signup_customer(
                 first_name=first_name,
                 last_name=last_name,
                 password=password_1,
                 email=email,
-                phone_number=phone_number
             )
         except Exception as e:
-            return render_template("signup.html", signup_error="Error creating account. Please try again.")
+            return render_template(
+                "signup.html", 
+                signup_error="Error creating account. Please try again.",
+                name=request.form.get("name"),
+                contact=request.form.get("contact")
+            )
         
         session["customer_id"] = data["id"]
         session["first_name"] = data["first_name"]
-        return redirect("/")
+
+        return render_template("homepage.html", success_message="Account successfully created!")
+
 
 @app.route("/logout")
 def logout():
