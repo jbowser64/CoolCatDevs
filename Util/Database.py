@@ -3,7 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from math import floor
 from time import time
 from os import path
-import phonenumbers
 import sqlite3
 
 UTIL_FOLDER_PATH = path.dirname(path.dirname(path.abspath(__file__)))
@@ -51,15 +50,6 @@ def execute(query:str, parameters:tuple) -> bool:
 #--( Utilities )---------------------------------------------#
 def generate_timestamp() -> int:
 	return floor(time())
-
-def convert_phone_number(phone_number:str|None=None) -> str:
-	if not phone_number: return None
-
-	phone_number = phonenumbers.parse(phone_number)
-	if not phonenumbers.is_possible_number(phone_number): return None
-	#if not phonenumbers.is_valid_number(phone_number): return None
-
-	return phonenumbers.format_number(phone_number, phonenumbers.PhoneNumberFormat.E164)
 
 #--( Login & Signup )----------------------------------------#
 def login_customer(email:str, password:str) -> dict:
