@@ -27,7 +27,6 @@ def contact():
 
 
 #--( Credentials )-------------------------------------------#
-
 def logged_in() -> bool:
 	return session.get("customer_id") is not None
 
@@ -73,9 +72,8 @@ def signup():
 			return render_template(
 				"signup.html", 
 				signup_error="Error creating account. Please try again.",
-				name=request.form.get("name"),
-				contact=request.form.get("contact")
-			)
+				name	= request.form.get("name"),
+				contact	= request.form.get("email") )
 		
 		session["customer_id"] = data["id"]
 		session["first_name"] = data["first_name"]
@@ -171,33 +169,15 @@ def all_orders():
 	if len(orders) == 0: print("No orders.")
 	return jsonify(orders)
 
-@app.route("/orders/info/<int:order_id>", methods=["GET"]) #, "PUT", "DELETE"
+@app.route("/orders/info/<int:order_id>")
 def order_details(order_id):
-	match request.method:
-		case "GET":
-			order_info = Database.get_order_info(
-				customer_id = session.get("customer_id"), 
-				order_id	= order_id )
-			if len(order_info) == 0: print("No items in order.")
-			return jsonify(order_info)
-	
-	#case "PUT":
-	#	# Handle PUT requests to update an order
-	#	data = request.get_json()
-	#	updated_order = update_order(order_id, data)
-	#	return jsonify(updated_order)
-	#case "DELETE":
-	#	# Handle DELETE requests to delete an order
-	#	delete_order(order_id)
-	#	return jsonify({"message": "Order deleted successfully"})
+	order_info = Database.get_order_info(
+		customer_id = session.get("customer_id"), 
+		order_id	= order_id )
+	if len(order_info) == 0: print("No items in order.")
+	return jsonify(order_info)
 
 
 #--( Run )---------------------------------------------------# 
 if __name__ == "__main__":
 	app.run(debug=False)
-	#pprint(Database.get_product(6))
-
-#@app.route("/participants")
-#def participants():
-#	data = Database.get_participants()
-#	return render_template("participants.html", data=data)
