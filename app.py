@@ -10,6 +10,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+
 #--( Base Pages )--------------------------------------------#
 @app.route("/")
 @app.route("/home")
@@ -23,6 +24,7 @@ def about():
 @app.route("/contact")
 def contact():
 	return render_template("contactus.html")
+
 
 #--( Credentials )-------------------------------------------#
 
@@ -80,7 +82,6 @@ def signup():
 
 		return render_template("home.html", success_message="Account successfully created!")
 
-
 @app.route("/logout")
 def logout():
 	session.clear()
@@ -105,6 +106,7 @@ def product_info(product_id):
 	product = Database.get_product(product_id)
 	if len(product) == 0: print("Product Id doesn't exist.")
 	return jsonify(product)
+
 
 #--( Cart )--------------------------------------------------#
 @app.route("/cart")
@@ -154,6 +156,7 @@ def remove_from_cart():
 
 	return jsonify({"message": "Item(s) removed to cart successfully"}), 201
 
+
 #--( Orders )------------------------------------------------# 
 @app.route("/orders")
 def orders():
@@ -187,6 +190,7 @@ def order_details(order_id):
 	#	# Handle DELETE requests to delete an order
 	#	delete_order(order_id)
 	#	return jsonify({"message": "Order deleted successfully"})
+
 
 #--( Run )---------------------------------------------------# 
 if __name__ == "__main__":
