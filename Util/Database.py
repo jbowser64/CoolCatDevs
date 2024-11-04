@@ -62,14 +62,11 @@ def convert_phone_number(phone_number:str|None=None) -> str:
 	return phonenumbers.format_number(phone_number, phonenumbers.PhoneNumberFormat.E164)
 
 #--( Login & Signup )----------------------------------------#
-def login_customer(password:str, email:str|None=None, phone_number:str|None=None) -> dict:
-	if phone_number: phone_number = convert_phone_number(phone_number)
-	assert email or phone_number, "No email or phone number provided."
+def login_customer(email:str, password:str) -> dict:
+	assert email, "No email provided."
+	assert password, "No password provided."
 
-	if email:
-		data = fetch_one('''SELECT customer_id, first_name, password FROM customers WHERE email == ?''', (email,))
-	elif phone_number:
-		data = fetch_one('''SELECT customer_id, first_name, password FROM customers WHERE phone_number == ?''', (phone_number,))
+	data = fetch_one('''SELECT customer_id, first_name, password FROM customers WHERE email == ?''', (email,))
 	if len(data) == 0: print("Unable to find data for customer."); return None
 
 	return {
@@ -77,23 +74,22 @@ def login_customer(password:str, email:str|None=None, phone_number:str|None=None
 		"first_name": data[1]
 	} if check_password_hash(data[2], password) else None
 
-def signup_customer(first_name:str, last_name:str, password:str, email:str|None=None, phone_number:str|None=None) -> dict:
-	if phone_number: phone_number = convert_phone_number(phone_number)
-	assert email or phone_number, "No email or phone number provided."
+def signup_customer(first_name:str, last_name:str, email:str, password:str) -> dict:
+	assert email, "No email provided."
+	assert password, "No password provided."
 	
 	data = login_customer(
-		password	 = password,
-		email		 = email,
-		phone_number = phone_number )
+		email	 = email, 
+		password = password )
 	if data: return data
 
 	created = generate_timestamp(); updated = created
 	hashed_password = generate_password_hash(password)
-	execute('''INSERT INTO customers (first_name, last_name, password, email, phone_number, created, updated) VALUES (?, ?, ?, ?, ?, ?, ?)''', 
-		(first_name, last_name, hashed_password, email, phone_number, created, updated))
+	execute('''INSERT INTO customers (first_name, last_name, password, email, created, updated) VALUES (?, ?, ?, ?, ?, ?)''', 
+		(first_name, last_name, hashed_password, email, created, updated))
 	print(created)
 
-	return login_customer(password, email, phone_number)
+	return login_customer(email, password)
 
 #--( Product Information )-----------------------------------#
 def get_all_products() -> list:

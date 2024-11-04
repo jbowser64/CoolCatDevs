@@ -27,67 +27,64 @@ def contact():
 #--( Credentials )-------------------------------------------#
 
 def logged_in() -> bool:
-    return session.get("customer_id") is not None
+	return session.get("customer_id") is not None
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "GET":
-        return render_template("login.html")
-    else:
-        data = Database.login_customer(
-            password=request.form.get("password"),
-            email=request.form.get("email"),
-            phone_number=request.form.get("phone_number")
-        )
-        if not data:
-            return render_template("login.html", login_error="Invalid email, phone number, or password.")
-        
-        session["customer_id"] = data["id"]
-        session["first_name"] = data["first_name"]
-        return redirect("/")
+	if request.method == "GET":
+		return render_template("login.html")
+	else:
+		data = Database.login_customer(
+			email = request.form.get("email"),
+			password = request.form.get("password") )
+		if not data:
+			return render_template("login.html", login_error="Invalid email, phone number, or password.")
+		
+		session["customer_id"] = data["id"]
+		session["first_name"] = data["first_name"]
+		return redirect("/")
 
 @app.route("/signup", methods=["GET", "POST"]) 
 def signup():
-    if request.method == "GET":
-        return render_template("signup.html")
-    else:
-        password_1 = request.form.get("password_1")
-        password_2 = request.form.get("password_2")
-        
-        if password_1 != password_2:
-            return render_template("signup.html", signup_error="Passwords don't match.")
-        
-        name = request.form.get("name").split(" ")
-        first_name, last_name = name[0], name[-1]
-        
-        contact = request.form.get("contact")
-        email = contact if contact and "@" in contact else None
+	if request.method == "GET":
+		return render_template("signup.html")
+	elif request.method == "POST":
+		password_1 = request.form.get("password_1")
+		password_2 = request.form.get("password_2")
+		
+		if password_1 != password_2:
+			return render_template("signup.html", signup_error="Passwords don't match.")
+		
+		name = request.form.get("name").split(" ")
+		first_name, last_name = name[0], name[-1]
+		
+		email = request.form.get("email")
+		email = email if email and "@" in email else None
+		
+		try:
+			data = Database.signup_customer(
+				first_name	= first_name,
+				last_name	= last_name,
+				email		= email,
+				password = password_1 )
+		except Exception as err:
+			return render_template(
+				"signup.html", 
+				signup_error="Error creating account. Please try again.",
+				name=request.form.get("name"),
+				contact=request.form.get("contact")
+			)
+		
+		session["customer_id"] = data["id"]
+		session["first_name"] = data["first_name"]
 
-        try:
-            data = Database.signup_customer(
-                first_name=first_name,
-                last_name=last_name,
-                password=password_1,
-                email=email,
-            )
-        except Exception as e:
-            return render_template(
-                "signup.html", 
-                signup_error="Error creating account. Please try again.",
-                name=request.form.get("name"),
-                contact=request.form.get("contact")
-            )
-        
-        session["customer_id"] = data["id"]
-        session["first_name"] = data["first_name"]
-
-        return render_template("homepage.html", success_message="Account successfully created!")
+		return render_template("home.html", success_message="Account successfully created!")
 
 
 @app.route("/logout")
 def logout():
-    session.clear()
-    return redirect("/")
+	session.clear()
+	return redirect("/")
 
 
 #--( Products )----------------------------------------------#
@@ -140,7 +137,6 @@ def add_to_cart():
 		quantity = quantity )
 
 	return jsonify({"message": "Item(s) added to cart successfully"}), 201
-
 
 @app.route("/cart/remove", methods=["POST"])
 def remove_from_cart():
