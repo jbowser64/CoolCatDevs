@@ -1,9 +1,8 @@
 
 #--( Dependencies )------------------------------------------#
-from flask import Flask, send_from_directory, session, request, Response, redirect, render_template, jsonify
+from flask import Flask, session, request, Response, redirect, render_template, jsonify
 from flask_session import Session
-from Util import Database
-from pprint import pprint
+from Utils import Database
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
