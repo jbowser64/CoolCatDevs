@@ -50,7 +50,6 @@
 		fetch("/orders/info")
 			.then(response => response.json())
 			.then(data => {
-				
 				const table_body = document.getElementById('data-table').getElementsByTagName('tbody')[0];
 				data.forEach(order => {
 					let row = table_body.insertRow();

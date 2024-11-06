@@ -7,10 +7,4 @@ admin@email.com | PASSWORD
 
 Install python -> Install as path
 
-pip install flask
-
-pip install Flask-Session
-
-pip install db-sqlite3
-
-pip install phonenumbers
+pip install -r /path/to/requirements.txt
