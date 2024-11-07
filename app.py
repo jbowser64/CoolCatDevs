@@ -3,10 +3,12 @@
 from flask import Flask, session, request, Response, redirect, render_template, jsonify
 from flask_session import Session
 from Utils import Database
+#from os import urandom
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+#app.config["SECRET_KEY"] = urandom(24)
 Session(app)
 
 
