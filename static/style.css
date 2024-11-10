@@ -259,7 +259,7 @@ body {
 
 
 	/* CART STYLING */
-.cart-border{
+ .cart-border{
 	width: 40px; height: 25px;
 	background-color: white;
 	border: outset white 2px;
@@ -276,18 +276,27 @@ body {
 		height: 24px;
 	}
 
-body {
-	margin: 0;
-	padding: 0;
-	font-family: Arial, sans-serif;
+.cart-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
 }
 
-footer {
-	border-style:outset;
-	border:ridge;
-	width:auto;
+	.cart-table th, .cart-table td {
+		border: 1px solid #ddd;
+		padding: 8px;
+		text-align: center;
+	}
 
-}
+	.cart-table th {
+		background-color: #f4f4f4;
+		font-weight: bold;
+	}
+
+	.cart-table tbody tr:hover {
+		background-color: #f1f1f1;
+	}
+
 	/* CART STYLING END */
 
 	/* CONTACT US PAGE STYLING */
@@ -444,3 +453,51 @@ footer {
 
 
 	/* Error/Success Message Styling END */
+
+
+	/* Aboutus.html Styling */
+
+.about-container {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+	text-align: center;
+	background-color: #f9f9f9;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+	color: #333;
+	font-size: 2.5em;
+	margin-bottom: 10px;
+}
+
+.about-content {
+	margin: 20px 0;
+}
+
+.about-text {
+	padding: 15px;
+	background-color: #ffffff;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 15px;
+	font-size: 1.1em;
+	line-height: 1.6;
+}
+
+.mission {
+	background-color: #eef6ff;
+	border-color: #b3d4fc;
+}
+
+.about-image img {
+	width: 100%;
+	max-width: 400px;
+	border-radius: 5px;
+	margin-top: 20px;
+	border: 2px solid #ddd;
+}
+
+	/* Aboutus.html Styling END */

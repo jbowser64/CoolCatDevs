@@ -110,9 +110,17 @@ def product_info(product_id):
 #--( Cart )--------------------------------------------------#
 @app.route("/cart")
 def cart():
-	if not logged_in():
-		return redirect("/login")
-	return render_template("cart.html")  
+    if not logged_in():
+        return redirect("/login")
+	
+	# Attempting to retrieve the cart items and display them properly:
+    customer_id = session.get("customer_id")
+    cart_items = Database.get_cart(customer_id)
+    
+    total = sum(item["unit_price"] * item["quantity"] for item in cart_items) if cart_items else 0
+    
+    return render_template("cart.html", items=cart_items, total=total)
+    return render_template("cart.html")  
 
 @app.route("/cart/info")
 def cart_items():
