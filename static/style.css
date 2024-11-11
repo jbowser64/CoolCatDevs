@@ -278,23 +278,32 @@ body {
 
 .cart-table {
 	width: 100%;
-	border-collapse: collapse;
 	margin-top: 20px;
+	border-collapse: collapse;
 }
 
-	.cart-table th, .cart-table td {
-		border: 1px solid #ddd;
-		padding: 8px;
-		text-align: center;
+	.cart-table > thead > tr {
+		border-bottom: 2px solid #ddd;
 	}
 
 	.cart-table th {
-		background-color: #f4f4f4;
+		background-color: transparent;
 		font-weight: bold;
+		text-align: left;
+		padding: 12px;
 	}
 
-	.cart-table tbody tr:hover {
+	.cart-table > tbody > tr {
+		border-bottom: 1px solid #ddd;
+	}
+
+	.cart-table > tbody > tr:hover {
 		background-color: #f1f1f1;
+	}
+
+	.cart-table td {
+		padding: 12px;
+		text-align: left;
 	}
 
 	/* CART STYLING END */
@@ -428,7 +437,6 @@ body {
 		text-decoration: underline;
 }
 
-}
 	/* LOGIN PAGE & SIGN UP PAGE STYLING END */
 
 	/* Error/Success message styling */
@@ -451,9 +459,7 @@ body {
 	margin-bottom: 10px;
 }
 
-
 	/* Error/Success Message Styling END */
-
 
 	/* Aboutus.html Styling */
 

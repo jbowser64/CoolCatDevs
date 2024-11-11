@@ -6,28 +6,28 @@
 <h1>Your Shopping Cart</h1>
 
 {% if items %}
-<div class="cart-container" style="max-width: 800px; margin: auto;">
-    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+<div style="max-width: 800px; margin: auto;">
+    <table class="cart-table">
         <thead>
-            <tr style="background-color: #f5f5f5; border-bottom: 2px solid #ddd;">
-                <th style="padding: 12px; text-align: left;">Product Image</th>
-                <th style="padding: 12px; text-align: left;">Product Name</th>
-                <th style="padding: 12px; text-align: center;">Price</th>
-                <th style="padding: 12px; text-align: center;">Quantity</th>
-                <th style="padding: 12px; text-align: center;">Subtotal</th>
+            <tr>
+                <th style="width:60px">Image</th>
+                <th style="text-align: left;">Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
             </tr>
         </thead>
         <tbody>
             {% for item in items %}
-            <tr style="border-bottom: 1px solid #ddd;">
+            <tr>
                 <!-- Image Column -->
-                <td style="padding: 12px; text-align: center;">
+                <td>
                     <img src="{{ item.image }}" alt="{{ item.name }}" style="width: 60px; height: auto; border-radius: 8px;">
                 </td>
-                <td style="padding: 12px;">{{ item.name }}</td>
-                <td style="padding: 12px; text-align: center;">${{ item.unit_price }}</td>
-                <td style="padding: 12px; text-align: center;">{{ item.quantity }}</td>
-                <td style="padding: 12px; text-align: center;">${{ item.unit_price * item.quantity }}</td>
+                <td style="text-align: left;">{{ item.name }}</td>
+                <td>${{ item.unit_price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.unit_price * item.quantity }}</td>
             </tr>
             {% endfor %}
         </tbody>
