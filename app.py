@@ -110,17 +110,15 @@ def product_info(product_id):
 #--( Cart )--------------------------------------------------#
 @app.route("/cart")
 def cart():
-    if not logged_in():
-        return redirect("/login")
+	if not logged_in():
+		return redirect("/login")
 	
-	# Attempting to retrieve the cart items and display them properly:
-    customer_id = session.get("customer_id")
-    cart_items = Database.get_cart(customer_id)
-    
-    total = sum(item["unit_price"] * item["quantity"] for item in cart_items) if cart_items else 0
-    
-    return render_template("cart.html", items=cart_items, total=total)
-    return render_template("cart.html")  
+	customer_id = session.get("customer_id")
+	cart_items = Database.get_cart(customer_id)
+	
+	total = sum(item["unit_price"] * item["quantity"] for item in cart_items) if cart_items else 0
+	
+	return render_template("cart.html", items=cart_items, total=total)
 
 @app.route("/cart/info")
 def cart_items():
@@ -147,7 +145,7 @@ def add_to_cart():
 
 	return jsonify({"message": "Item(s) added to cart successfully"}), 201
 
-@app.route("/cart/remove", methods=["POST"])
+@app.route("/cart/remove", methods=["DELETE"])
 def remove_from_cart():
 	if not logged_in():
 		return redirect("/login")
@@ -162,6 +160,15 @@ def remove_from_cart():
 		quantity = quantity )
 
 	return jsonify({"message": "Item(s) removed to cart successfully"}), 201
+
+@app.route("/cart/order", methods=["POST"])
+def order_cart_items():
+	if not logged_in():
+		return redirect("/login")
+	
+	success = Database.place_order( session.get("customer_id") )
+
+	return jsonify({"message": "Placed order successfully."}), 201
 
 
 #--( Orders )------------------------------------------------# 

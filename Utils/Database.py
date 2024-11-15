@@ -6,7 +6,7 @@ from os import path
 import sqlite3
 
 UTIL_FOLDER_PATH = path.dirname(path.dirname(path.abspath(__file__)))
-DATABASE_PATH = path.join(UTIL_FOLDER_PATH, "Resources", "Database.db")
+DATABASE_PATH = path.join(UTIL_FOLDER_PATH, "Resources", "database.db")
 
 #--( Interacting With Database )-----------------------------#
 def fetch_one(query:str, parameters:tuple|None=None) -> any:
@@ -146,6 +146,61 @@ def get_product(product_variant_id:int) -> dict:
 	}
 
 #--( Order Information )-------------------------------------#
+def place_order(customer_id:int) -> bool:
+	assert customer_id, "No customer id provided."
+
+	print("PLACE ORDER")
+
+	timestamp = generate_timestamp()
+
+	execute('''
+		INSERT INTO orders (
+			customer_id, 
+			status_id, 
+			created,
+			updated )
+		VALUES (?, 1, ?, ?)
+	''', (customer_id, timestamp, timestamp))
+
+	order_id = fetch_one('''
+		SELECT order_id
+		FROM orders
+		WHERE customer_id = ?
+		ORDER BY created DESC
+		LIMIT 1
+	''', (customer_id,))
+
+	cart_items = fetch_all('''
+		SELECT
+			product_variant_id,
+			quantity
+		WHERE customer_id = ?
+	''', (customer_id,))
+
+	for item in cart_items:
+		product_variant_id, quantity = item
+		unit_price = fetch_one('''
+			SELECT unit_price
+			FROM product_variants
+			WHERE product_variant_id = ?
+		''', (product_variant_id,))
+
+		execute('''
+			INSERT INTO order_items (
+				order_id,
+				product_variant_id,
+		  		quantity,
+				unit_price )
+			VALUES (?, ?, ?, ?)
+		''', (order_id, product_variant_id, quantity, unit_price))
+
+	execute('''
+		DELETE FROM cart_items
+		WHERE customer_id = ?
+	''', customer_id)
+
+	return True
+
 def get_orders(customer_id:int) -> list:
 	assert customer_id, "No customer id provided."
 
