@@ -170,34 +170,24 @@ def place_order(customer_id:int) -> bool:
 		LIMIT 1
 	''', (customer_id,))
 
-	cart_items = fetch_all('''
+	execute('''
+		INSERT INTO order_items
+		(order_id, product_variant_id, quantity, unit_price)
 		SELECT
-			product_variant_id,
-			quantity
-		WHERE customer_id = ?
-	''', (customer_id,))
+			?,
+			ci.product_variant_id,
+			ci.quantity,
+			pv.unit_price
+		FROM cart_items ci
+		JOIN product_variants pv ON ci.product_variant_id = pv.product_variant_id
+		WHERE ci.customer_id = ?
+	''', (order_id, customer_id))
 
-	for item in cart_items:
-		product_variant_id, quantity = item
-		unit_price = fetch_one('''
-			SELECT unit_price
-			FROM product_variants
-			WHERE product_variant_id = ?
-		''', (product_variant_id,))
-
-		execute('''
-			INSERT INTO order_items (
-				order_id,
-				product_variant_id,
-		  		quantity,
-				unit_price )
-			VALUES (?, ?, ?, ?)
-		''', (order_id, product_variant_id, quantity, unit_price))
-
+	# Delete items from cart_items
 	execute('''
 		DELETE FROM cart_items
-		WHERE customer_id = ?
-	''', customer_id)
+			WHERE customer_id = ?
+	''', (customer_id,))
 
 	return True
 
