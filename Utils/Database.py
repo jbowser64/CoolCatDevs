@@ -149,8 +149,6 @@ def get_product(product_variant_id:int) -> dict:
 def place_order(customer_id:int) -> bool:
 	assert customer_id, "No customer id provided."
 
-	print("PLACE ORDER")
-
 	timestamp = generate_timestamp()
 
 	execute('''

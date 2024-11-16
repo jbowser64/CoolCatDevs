@@ -168,7 +168,10 @@ def order_cart_items():
 	
 	success = Database.place_order( session.get("customer_id") )
 
-	return jsonify({"message": "Placed order successfully."}), 201
+	if success:
+		return jsonify({"message": "Placed order successfully."}), 201
+	else:
+		return jsonify({"message": "An issue occured."}), 500
 
 
 #--( Orders )------------------------------------------------# 
