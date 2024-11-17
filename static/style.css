@@ -191,7 +191,10 @@ body {
 		color: #27ae60;
 		margin-bottom: 1rem;
 	}
+	.product-card select {
+		margin-right: 2%; 
 
+	}
 .add-to-cart {
 	background-color: #1abc9c;
 	color: white;
