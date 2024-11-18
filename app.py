@@ -145,21 +145,23 @@ def add_to_cart():
 
 	return jsonify({"message": "Item(s) added to cart successfully"}), 201
 
-@app.route("/cart/remove", methods=["DELETE"])
+@app.route("/cart/remove", methods=["POST"])  
 def remove_from_cart():
-	if not logged_in():
-		return redirect("/login")
-	
-	data = request.get_json()
-	product_variant_id = data["product_variant_id"]
-	quantity = data["quantity"] if "quantity" in data else 999
-	
-	Database.remove_from_cart(
-		customer_id = session.get("customer_id"),
-		product_variant_id = product_variant_id,
-		quantity = quantity )
+    if not logged_in():
+        return redirect("/login")
+    
+    data = request.get_json()
+    product_variant_id = data["product_variant_id"]
+    quantity = data["quantity"] if "quantity" in data else 999  
+    
+    Database.remove_from_cart(
+        customer_id=session.get("customer_id"),
+        product_variant_id=product_variant_id,
+        quantity=quantity
+    )
 
-	return jsonify({"message": "Item(s) removed to cart successfully"}), 201
+    return jsonify({"message": "Item(s) removed from cart successfully"}), 201
+
 
 @app.route("/cart/order", methods=["POST"])
 def order_cart_items():

@@ -28,6 +28,13 @@
 				<td>${{ item.unit_price }}</td>
 				<td>{{ item.quantity }}</td>
 				<td>${{ item.unit_price * item.quantity }}</td>
+				<td>
+					<button class="remove-button"
+							data-item-id="{{ item.id }}"
+							style="padding: 5px 10px; background-color: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;">
+						Remove
+					</button>
+				</td>
 			</tr>
 			{% endfor %}
 		</tbody>
@@ -42,16 +49,48 @@
 </div>
 
 <script>
-	document.getElementById('checkout_button').addEventListener('click', function() {
+    document.querySelectorAll('.remove-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const itemId = button.getAttribute('data-item-id');
+
+            if (confirm('Are you sure you want to remove this item from your cart?')) {
+                fetch('/cart/remove', {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ product_variant_id: itemId })
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Item removed successfully!');
+                            location.reload(); 
+                        } else {
+                            alert('Failed to remove item. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please try again later.');
+                    });
+            }
+        });
+    });
+
+
+	document.getElementById('checkout_button').addEventListener('click', function () {
 		fetch('/cart/order', { method: 'POST' })
-		.then(response => {
-			if (response.ok) { window.location.href = '/orders'; }
-			else { throw new Error('Network response was not ok.'); }
-		})
-		.catch((error) => {
-			console.error('Error:', error);
-			alert('An error occurred. Please try again later.');
-		});
+			.then(response => {
+				if (response.ok) {
+					window.location.href = '/orders';
+				} else {
+					throw new Error('Network response was not ok.');
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				alert('An error occurred. Please try again later.');
+			});
 	});
 </script>
 {% else %}
